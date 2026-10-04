@@ -1,16 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big-Gizmo — Games & Clips</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
+:root{--bg:#080b16;--card:#131830;--tx:#eef;--mut:#99a;--ac:#6c5cff}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--ac);color:#fff}
+button.ghost{background:#222a4a}input{font:inherit;padding:11px;border-radius:10px;border:1px solid #334;background:#0d1226;color:var(--tx);width:100%}
+.hide{display:none!important}
+#gate{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#1b1f4a,#080b16);z-index:50;padding:16px}
+.box{background:var(--card);padding:28px;border-radius:18px;width:min(380px,100%);display:grid;gap:12px;text-align:center}
+.steps{display:flex;gap:6px;justify-content:center}.steps i{width:30px;height:5px;border-radius:3px;background:#334}.steps i.on{background:var(--ac)}
+#err{color:#ff7b7b;min-height:1.2em;font-size:.9rem}small,.mut{color:var(--mut)}
+nav{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#0d1226;position:sticky;top:0;z-index:10;flex-wrap:wrap}
+nav b{margin-right:auto;font-size:1.2rem}nav button{background:transparent}nav button.act{background:var(--ac)}
+#who{font-size:.8rem;color:var(--mut)}
+section{padding:18px;max-width:1300px;margin:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:14px}
+.g{background:var(--card);border-radius:14px;padding:16px;display:grid;gap:8px}.g .e{font-size:2.2rem}.g small{font-size:.75rem;letter-spacing:.1em}
+#modal{position:fixed;inset:0;background:#000d;z-index:40;display:flex;flex-direction:column;padding:12px;gap:8px}#modal iframe{flex:1;border:0;border-radius:12px;background:#000}
 #ov{position:fixed;inset:0;background:#000e;z-index:45;display:grid;place-items:center}
 .ovb{background:#131830;padding:14px;border-radius:16px;width:min(500px,96vw);display:grid;gap:10px}
-.ovb .row{align-items:center}
 #cv{width:100%;aspect-ratio:1;background:#0d1226;border-radius:10px;touch-action:none}
-</style>
-<script>
-(()=>{
-const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
-let favs=LS("gz_fav",[]),recent=LS("gz_recent",[]),best=LS("gz_best",{}),tab="All",stop=null,cur=0;
-const save=()=>{localStorage.setItem("gz_fav",JSON.stringify(favs));localStorage.setItem("gz_recent",JSON.stringify(recent));localStorage.setItem("gz_best",JSON.stringify(best))};
+#yt{display:grid;grid-template-columns:200px 1fr;gap:16px}
+.side{display:grid;gap:4px;align-content:start;position:sticky;top:60px}.side button{background:transparent;text-align:left}.side button:hover{background:#1a2040}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}.chips button{background:#222a4a;white-space:nowrap;border-radius:99px;padding:7px 14px}.chips button.on{background:#fff;color:#000}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:10px}
+.v{cursor:pointer}.v img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#222}.v h4{margin:0;font-size:.95rem}
+.row{display:flex;gap:10px;align-items:center}.av{width:36px;height:36px;border-radius:50%;background:var(--ac);display:grid;place-items:center;flex:none;font-weight:700}
+#watch{display:grid;grid-template-columns:1fr 340px;gap:18px}#watch iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}
+.rel{display:grid;gap:12px;align-content:start}.rel .v{display:flex;gap:8px}.rel img{width:150px}
+#tt{display:flex;flex-direction:column;align-items:center;gap:10px}
+.addbar{display:flex;gap:8px;width:min(400px,100%)}
+.phone{width:min(400px,100%);height:calc(100vh - 160px);background:#000;border-radius:24px;overflow:hidden;position:relative;border:6px solid #222}
+.tabs{position:absolute;top:10px;left:0;right:0;display:flex;justify-content:center;gap:18px;z-index:5;font-weight:600;text-shadow:0 1px 4px #000}.tabs span{opacity:.6;cursor:pointer}.tabs .on{opacity:1;border-bottom:2px solid #fff}
+.feed{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}.feed::-webkit-scrollbar{display:none}
+.clip{height:100%;scroll-snap-align:start;position:relative;background:#111}.clip iframe{width:100%;height:100%;border:0}
+.info{position:absolute;left:12px;bottom:18px;right:80px;pointer-events:none;text-shadow:0 1px 5px #000}
+.act{position:absolute;right:8px;bottom:70px;display:grid;gap:16px;justify-items:center;font-size:.75rem;text-shadow:0 1px 4px #000}
+.act button{background:#0008;border-radius:50%;width:48px;height:48px;padding:0;font-size:1.4rem}.act button.liked{color:#ff2d55}
+.disc{position:absolute;right:12px;bottom:14px;width:40px;height:40px;border-radius:50%;background:conic-gradient(#333,#888,#333);animation:sp 4s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+#bug{position:fixed;left:0;right:0;bottom:0;background:#a22;color:#fff;padding:8px 12px;font-size:.8rem;z-index:99}
+@media(max-width:800px){#yt,#watch{grid-template-columns:1fr}.side{display:none}}
+</style></head><body>
 
-/* ---------- original games ---------- */
+<div id="gate"><div class="box">
+ <h2>⚡ BIG-GIZMO</h2><div class="steps"><i id="s1" class="on"></i><i id="s2"></i><i id="s3"></i></div>
+ <div id="step1" style="display:grid;gap:12px"><p class="mut">Step 1 · Enter the 6-letter access code</p>
+  <input id="code" type="password" maxlength="6" placeholder="Access code" autocomplete="off"><button onclick="checkCode()">Continue</button></div>
+ <div id="step2" class="hide" style="display:grid;gap:12px"><p class="mut">Step 2 · Sign in with Google</p>
+  <div id="gbtn" style="display:flex;justify-content:center"></div>
+  <button id="demo" class="ghost hide" onclick="onUser({name:'Guest',email:'guest@demo'})">Continue as guest (demo — set up Google first)</button></div>
+ <div id="step3" class="hide" style="display:grid;gap:12px"><p class="mut" id="pinMsg">Step 3 · 2-step verification</p>
+  <input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="6-digit PIN"><button onclick="checkPin()">Verify</button></div>
+ <div id="err"></div>
+ <small>Google's own 2-step verification applies if it's on for your account.</small>
+</div></div>
+
+<div id="app" class="hide">
+<nav><b>⚡ BIG-GIZMO</b><span id="who"></span>
+ <button class="act" data-v="games">🎮 Games</button><button data-v="yt">▶ YouTube</button><button data-v="tt">♪ TikTok</button><button class="ghost" onclick="logout()">Log out</button></nav>
+
+<section id="games"><h1>Play more. Scroll less boring.</h1><input id="q" placeholder="Search games…" style="max-width:360px;margin-top:10px"><div class="chips" id="gtabs" style="margin-top:14px"></div><div class="grid" id="gg"></div></section>
+
+<section id="yt" class="hide">
+ <div class="side"><button onclick="load('Trending')">🏠 Home</button><button onclick="load('music')">🎵 Music</button><button onclick="load('gaming')">🎮 Gaming</button><button onclick="liked()">👍 Liked videos</button></div>
+ <div><input id="yq" placeholder="Search all of YouTube… (press Enter)" style="max-width:500px"><div class="chips" id="chips" style="margin-top:10px"></div><p id="note" class="mut" style="font-size:.85rem"></p><div class="vg" id="vg"></div></div>
+</section>
+
+<section id="watch" class="hide"><div><iframe id="player" allowfullscreen allow="autoplay;encrypted-media;fullscreen"></iframe><h2 id="wt" style="margin:10px 0 4px"></h2><div class="row"><span id="wc" class="mut" style="margin-right:auto"></span><button class="ghost" id="wl" onclick="likeCur()">👍 Like</button><button class="ghost" onclick="show('yt')">← Back</button></div></div><div class="rel" id="rel"></div></section>
+
+<section id="tt" class="hide">
+ <div class="addbar"><input id="ttl" placeholder="Paste a TikTok video link"><button onclick="addTT()">Add</button></div>
+ <div class="phone"><div class="tabs"><span onclick="window.open('https://www.tiktok.com/following')">Following</span><span class="on" onclick="buildFeed()">For You ↻</span></div><div class="feed" id="feed"></div></div>
+</section>
+</div>
+
+<div id="modal" class="hide"><div><button class="ghost" onclick="closeGame()">✕ Close</button> <a id="gl" target="_blank" style="color:#9af;margin-left:10px">Open in new tab ↗</a></div><iframe id="gf" allow="fullscreen;autoplay"></iframe></div>
+
+<div id="ov" class="hide"><div class="ovb"><div class="row"><b id="ovt" style="margin-right:auto"></b><span id="ovs" class="mut"></span><button class="ghost" id="ovf">⛶</button><button class="ghost" id="ovx">✕</button></div><canvas id="cv" width="480" height="480"></canvas><div id="ovm" class="mut" style="text-align:center;min-height:1.6em"></div></div></div>
+
+<script>
+/* ===== SETTINGS — edit these ===== */
+const CODE_HASH="02e54ddadd1d207d541d790a47282ec611a55458f94d1df49ddf33e35d6a57de"; // code: JNBWLI
+const GOOGLE_CLIENT_ID=""; // Google OAuth Client ID
+const YT_API_KEY="";       // YouTube Data API v3 key
+const ALLOWED_EMAILS=[];   // e.g. ["you@gmail.com"]; empty = any Google account
+/* ================================= */
+addEventListener("error",e=>{const d=document.createElement("div");d.id="bug";d.textContent="Script error: "+e.message+" (line "+e.lineno+")";document.body.appendChild(d)});
+const $=id=>document.getElementById(id),err=m=>$("err").textContent=m||"";
+const LS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const sha=async s=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,"0")).join("");
+const clean=s=>{const t=document.createElement("textarea");t.innerHTML=s;return t.value.replace(/[<>&"']/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]))};
+const stepTo=n=>{[1,2,3].forEach(i=>{$("step"+i).classList.toggle("hide",i!=n);$("s"+i).classList.toggle("on",i<=n)});err()};
+const GAMES=[["🛷","RACING","Snow Rider 3D","Sled downhill and dodge obstacles.","https://snowrider.com/"],["🏈","SPORTS","Retro Bowl","Build a team and win the title.","https://retrobowl.dev/"],["🔢","PUZZLE","2048","Slide tiles to reach 2048.","https://play2048.co/"],["🍪","IDLE","Cookie Clicker","Grow your bakery.","https://orteil.dashnet.org/cookieclicker/"],["🚀","RUNNER","Run 3","Run through space tunnels.","https://run3.io/"],["🟢","ARCADE","Slope","Steer a ball down a neon course.","https://slopegame.io/"],["🏀","SPORTS","Basketball Stars","Quick basketball matchups.","https://www.miniplay.com/game/basketball-stars"],["🃏","CLASSIC","Solitaire","A classic card game.","https://www.google.com/search?q=solitaire"]];
+const LOCAL=[["8swDFMt-x9Y","Minecraft Shorts","Minecraft"],["9WCMxmnMInQ","Minecraft: Different Ages","Minecraft"],["dQw4w9WgXcQ","Never Gonna Give You Up","Rick Astley"],["jNQXAC9IMGw","Me at the zoo","jawed"],["9bZkp7q19f0","Gangnam Style","PSY"],["kJQP7kiw5Fk","Despacito","Luis Fonsi"],["JGwWNGJdvx8","Shape of You","Ed Sheeran"],["OPf0YbXqDm0","Uptown Funk","Mark Ronson"],["RgKAFK5djSk","See You Again","Wiz Khalifa"]].map(v=>({id:v[0],title:v[1],ch:v[2]}));
+const TOPICS=["funny","cooking","sports","dance","animals","life hacks","art","science","travel","comedy","football","magic tricks"];
+let user=null,cur=null,list=[],likes=LS("gz_likes2",[]);
+
+/* --- login --- */
+async function checkCode(){if(await sha($("code").value.trim().toUpperCase())===CODE_HASH){stepTo(2);initGoogle()}else err("Wrong access code.")}
+function initGoogle(){
+ if(!GOOGLE_CLIENT_ID){$("demo").classList.remove("hide");$("gbtn").innerHTML='<small>Google sign-in not configured yet.</small>';return}
+ const t=setInterval(()=>{if(window.google){clearInterval(t);google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:r=>{const p=JSON.parse(atob(r.credential.split(".")[1].replace(/-/g,"+").replace(/_/g,"/")));onUser({name:p.name,email:p.email})}});google.accounts.id.renderButton($("gbtn"),{theme:"filled_blue",size:"large"})}},200)}
+function onUser(u){if(ALLOWED_EMAILS.length&&!ALLOWED_EMAILS.includes(u.email))return err("That account isn't allowed.");user=u;
+ $("pinMsg").textContent=localStorage.getItem("gz_pin_"+u.email)?"Step 3 · Enter your 6-digit PIN":"Step 3 · Create a 6-digit PIN (your 2nd factor)";stepTo(3)}
+async function checkPin(){const p=$("pin").value;if(!/^\d{6}$/.test(p))return err("PIN must be 6 digits.");const k="gz_pin_"+user.email,h=await sha(p+user.email),s=localStorage.getItem(k);
+ if(!s){localStorage.setItem(k,h)}else if(s!==h)return err("Wrong PIN.");
+ sessionStorage.setItem("gz_user",JSON.stringify(user));enter()}
+function enter(){$("gate").classList.add("hide");$("app").classList.remove("hide");$("who").textContent=user.name;show("games");load("Trending",true)}
+function logout(){sessionStorage.clear();location.reload()}
+
+/* --- navigation --- */
+function show(v){["games","yt","watch","tt"].forEach(x=>$(x).classList.toggle("hide",x!=v));document.querySelectorAll("nav button[data-v]").forEach(b=>b.classList.toggle("act",b.dataset.v==(v=="watch"?"yt":v)));if(v!="watch")$("player").src="";if(v=="tt"&&!$("feed").children.length)buildFeed()}
+document.querySelectorAll("nav button[data-v]").forEach(b=>b.onclick=()=>show(b.dataset.v));
+
+/* --- original games --- */
 function snake(cv,sc,over){const x=cv.getContext("2d"),N=20,S=cv.width/N;let b=[[10,10]],d=[1,0],nd=d,f=[5,5],s=0,t;
  const draw=()=>{x.fillStyle="#0d1226";x.fillRect(0,0,480,480);x.fillStyle="#ff4d6d";x.fillRect(f[0]*S+2,f[1]*S+2,S-4,S-4);x.fillStyle="#4ade80";b.forEach(p=>x.fillRect(p[0]*S+1,p[1]*S+1,S-2,S-2))};
  const key=e=>{const m={ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]}[e.key];if(m&&(m[0]!=-d[0]||m[1]!=-d[1]))nd=m};
@@ -20,14 +126,13 @@ function snake(cv,sc,over){const x=cv.getContext("2d"),N=20,S=cv.width/N;let b=[
  const step=()=>{d=nd;const h=[b[0][0]+d[0],b[0][1]+d[1]];if(h[0]<0||h[1]<0||h[0]>=N||h[1]>=N||b.some(p=>p[0]==h[0]&&p[1]==h[1])){stop();over(s);return}
   b.unshift(h);if(h[0]==f[0]&&h[1]==f[1]){sc(++s);f=[Math.random()*N|0,Math.random()*N|0]}else b.pop();draw()};
  draw();t=setInterval(step,110);return stop}
-
 function breakout(cv,sc,over){const x=cv.getContext("2d"),W=480,H=480;let p=200,bx=240,by=420,vx=3,vy=-4,s=0,lives=3,raf,br=[];
  for(let r=0;r<5;r++)for(let c=0;c<8;c++)br.push({x:c*60+3,y:r*24+40,a:1});
  const mv=e=>{const r=cv.getBoundingClientRect(),cx=e.touches?e.touches[0].clientX:e.clientX;p=Math.max(0,Math.min(W-80,(cx-r.left)*W/r.width-40))};
  cv.onmousemove=mv;cv.ontouchmove=e=>{e.preventDefault();mv(e)};
  const key=e=>{if(e.key=="ArrowLeft")p=Math.max(0,p-28);if(e.key=="ArrowRight")p=Math.min(W-80,p+28)};addEventListener("keydown",key);
  const stop=()=>{cancelAnimationFrame(raf);removeEventListener("keydown",key)};
- const draw=()=>{x.fillStyle="#0d1226";x.fillRect(0,0,W,H);br.forEach(k=>{if(k.a){x.fillStyle=`hsl(${k.y*3},70%,60%)`;x.fillRect(k.x,k.y,54,18)}});
+ const draw=()=>{x.fillStyle="#0d1226";x.fillRect(0,0,W,H);br.forEach(k=>{if(k.a){x.fillStyle="hsl("+(k.y*3)+",70%,60%)";x.fillRect(k.x,k.y,54,18)}});
   x.fillStyle="#fff";x.fillRect(p,H-24,80,10);x.beginPath();x.arc(bx,by,6,0,7);x.fill();x.fillText("Lives: "+lives,10,20)};
  const f=()=>{bx+=vx;by+=vy;if(bx<6||bx>W-6)vx*=-1;if(by<6)vy*=-1;
   if(by>H-30&&by<H-12&&bx>p&&bx<p+80){vy=-Math.abs(vy);vx=(bx-p-40)/10}
@@ -36,7 +141,6 @@ function breakout(cv,sc,over){const x=cv.getContext("2d"),W=480,H=480;let p=200,
   if(!br.some(k=>k.a)){br.forEach(k=>k.a=1);vy*=1.15}
   draw();raf=requestAnimationFrame(f)};
  f();return stop}
-
 function dodger(cv,sc,over){const x=cv.getContext("2d"),W=480,H=480;let p=240,bl=[],s=0,fr=0,raf;
  const mv=e=>{const r=cv.getBoundingClientRect();p=((e.touches?e.touches[0].clientX:e.clientX)-r.left)*W/r.width};
  cv.onmousemove=mv;cv.ontouchmove=e=>{e.preventDefault();mv(e)};
@@ -49,38 +153,73 @@ function dodger(cv,sc,over){const x=cv.getContext("2d"),W=480,H=480;let p=240,bl
   x.fillStyle="#0d1226";x.fillRect(0,0,W,H);x.fillStyle="#ff4d6d";bl.forEach(b=>x.fillRect(b.x,b.y,30,30));x.fillStyle="#6c5cff";x.fillRect(p-15,H-40,30,28);
   raf=requestAnimationFrame(f)};
  f();return stop}
+const ALL=[{n:"Snake",e:"🐍",c:"ARCADE",d:"Eat, grow, don't crash. Arrows, WASD or swipe.",run:snake},{n:"Breakout",e:"🧱",c:"ARCADE",d:"Bounce the ball and clear every brick.",run:breakout},{n:"Dodger",e:"☄️",c:"ARCADE",d:"Move left and right and survive as long as you can.",run:dodger}].concat(GAMES.map(g=>({n:g[2],e:g[0],c:g[1],d:g[3],url:g[4]})));
 
-const BUILTIN=[{n:"Snake",e:"🐍",c:"ARCADE",d:"Eat, grow, don't crash. Arrows, WASD or swipe.",run:snake},
- {n:"Breakout",e:"🧱",c:"ARCADE",d:"Bounce the ball and clear every brick.",run:breakout},
- {n:"Dodger",e:"☄️",c:"ARCADE",d:"Move left and right and survive as long as you can.",run:dodger}];
-const ALL=[...BUILTIN,...GAMES.map(g=>({n:g[2],e:g[0],c:g[1],d:g[3],url:g[4]}))];
-
-/* ---------- overlay ---------- */
-document.body.insertAdjacentHTML("beforeend",`<div id="ov" class="hide"><div class="ovb"><div class="row"><b id="ovt" style="margin-right:auto"></b><span id="ovs" class="mut"></span><button class="ghost" id="ovf">⛶</button><button class="ghost" id="ovx">✕</button></div><canvas id="cv" width="480" height="480"></canvas><div id="ovm" class="mut" style="text-align:center;min-height:1.6em"></div></div></div>`);
-function closeOv(){stop&&stop();stop=null;$("ov").classList.add("hide")}
-$("ovx").onclick=closeOv;$("ovf").onclick=()=>$("ov").requestFullscreen&&$("ov").requestFullscreen();
-addEventListener("keydown",e=>{if($("ov").classList.contains("hide"))return;if(e.key=="Escape")closeOv();if(e.key.startsWith("Arrow"))e.preventDefault()});
-function run(){stop&&stop();const g=ALL[cur];$("ovm").textContent="Arrow keys, mouse or swipe to play";
- const sc=n=>$("ovs").textContent="Score "+n+" · Best "+Math.max(best[g.n]||0,n);sc(0);
- stop=g.run($("cv"),sc,n=>{if(n>(best[g.n]||0)){best[g.n]=n;save()}$("ovm").innerHTML='Game over — score '+n+' <button id="again">Play again</button>';$("again").onclick=run;drawGames()})}
-function play(i){const g=ALL[i];cur=i;recent=[g.n,...recent.filter(n=>n!=g.n)].slice(0,8);save();
- if(g.url)openGame(GAMES.findIndex(x=>x[4]==g.url));else{$("ovt").textContent=g.n;$("ov").classList.remove("hide");run()}}
-
-/* ---------- grid, tabs, favorites ---------- */
-$("gg").insertAdjacentHTML("beforebegin",'<div class="chips" id="gtabs" style="margin-top:14px"></div>');
+/* --- games hub --- */
+let favs=LS("gz_fav",[]),recent=LS("gz_recent",[]),best=LS("gz_best",{}),tab="All",stopFn=null,curG=0;
+const saveG=()=>{localStorage.setItem("gz_fav",JSON.stringify(favs));localStorage.setItem("gz_recent",JSON.stringify(recent));localStorage.setItem("gz_best",JSON.stringify(best))};
 const TABS=["All","Built-in","⭐ Favorites","🕘 Recent","ARCADE","SPORTS","PUZZLE","RACING"];
 function drawGames(){const q=$("q").value.toLowerCase();
- $("gtabs").innerHTML=TABS.map(t=>`<button class="${t==tab?"on":""}" data-t="${t}">${t}</button>`).join("")+'<button data-r="1">🎲 Random</button>';
+ $("gtabs").innerHTML=TABS.map(t=>'<button class="'+(t==tab?"on":"")+'" data-t="'+t+'">'+t+'</button>').join("")+'<button data-r="1">🎲 Random</button>';
  let L=ALL.map((g,i)=>({g,i}));
  if(tab=="⭐ Favorites")L=L.filter(o=>favs.includes(o.g.n));
  else if(tab=="🕘 Recent")L=recent.map(n=>L.find(o=>o.g.n==n)).filter(Boolean);
  else if(tab=="Built-in")L=L.filter(o=>o.g.run);
  else if(tab!="All")L=L.filter(o=>o.g.c==tab);
  L=L.filter(o=>(o.g.n+o.g.d).toLowerCase().includes(q));
- $("gg").innerHTML=L.map(o=>`<div class="g"><div class="row"><div class="e">${o.g.e}</div><button class="ghost" style="margin-left:auto;padding:4px 10px;height:34px" data-f="${o.i}">${favs.includes(o.g.n)?"★":"☆"}</button></div><small class="mut">${o.g.run?"ORIGINAL · ":""}${o.g.c}${best[o.g.n]?" · BEST "+best[o.g.n]:""}</small><h3>${o.g.n}</h3><p class="mut">${o.g.d}</p><button data-p="${o.i}">Play here</button></div>`).join("")||"<p>Nothing here yet.</p>"}
-document.getElementById("games").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
- if(d.t){tab=d.t;drawGames()}else if(d.r)play(Math.random()*ALL.length|0);else if(d.p!=null)play(+d.p);
- else if(d.f!=null){const n=ALL[+d.f].n;favs=favs.includes(n)?favs.filter(x=>x!=n):[...favs,n];save();drawGames()}});
+ $("gg").innerHTML=L.map(o=>'<div class="g"><div class="row"><div class="e">'+o.g.e+'</div><button class="ghost" style="margin-left:auto;padding:4px 10px" data-f="'+o.i+'">'+(favs.includes(o.g.n)?"★":"☆")+'</button></div><small class="mut">'+(o.g.run?"ORIGINAL · ":"")+o.g.c+(best[o.g.n]?" · BEST "+best[o.g.n]:"")+'</small><h3>'+o.g.n+'</h3><p class="mut">'+o.g.d+'</p><button data-p="'+o.i+'">Play here</button></div>').join("")||"<p>Nothing here yet.</p>"}
+function closeGame(){$("gf").src="";$("modal").classList.add("hide")}
+function closeOv(){if(stopFn)stopFn();stopFn=null;$("ov").classList.add("hide")}
+function runG(){if(stopFn)stopFn();const g=ALL[curG];$("ovm").textContent="Arrow keys, mouse or swipe to play";
+ const sc=n=>$("ovs").textContent="Score "+n+" · Best "+Math.max(best[g.n]||0,n);sc(0);
+ stopFn=g.run($("cv"),sc,n=>{if(n>(best[g.n]||0)){best[g.n]=n;saveG()}$("ovm").innerHTML='Game over — score '+n+' <button id="again">Play again</button>';$("again").onclick=runG;drawGames()})}
+function playG(i){const g=ALL[i];curG=i;recent=[g.n].concat(recent.filter(n=>n!=g.n)).slice(0,8);saveG();
+ if(g.url){$("gf").src=g.url;$("gl").href=g.url;$("modal").classList.remove("hide")}else{$("ovt").textContent=g.n;$("ov").classList.remove("hide");runG()}}
+$("ovx").onclick=closeOv;$("ovf").onclick=()=>{if($("ov").requestFullscreen)$("ov").requestFullscreen()};
+addEventListener("keydown",e=>{if($("ov").classList.contains("hide"))return;if(e.key=="Escape")closeOv();if(e.key.indexOf("Arrow")==0)e.preventDefault()});
+$("games").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+ if(d.t){tab=d.t;drawGames()}else if(d.r)playG(Math.random()*ALL.length|0);else if(d.p!=null)playG(+d.p);
+ else if(d.f!=null){const n=ALL[+d.f].n;favs=favs.includes(n)?favs.filter(x=>x!=n):favs.concat(n);saveG();drawGames()}});
 $("q").oninput=drawGames;drawGames();
-})();
-</script>
+
+/* --- YouTube --- */
+const CH=["Trending","music","gaming","sports","news","comedy","cooking","movie trailers"];
+let active="Trending";
+function chips(){$("chips").innerHTML=CH.map(c=>'<button class="'+(c==active?"on":"")+'" onclick="load(\''+c+'\')">'+c[0].toUpperCase()+c.slice(1)+'</button>').join("")}
+async function api(path,p){const u=new URL("https://www.googleapis.com/youtube/v3/"+path);Object.entries(Object.assign({},p,{key:YT_API_KEY})).forEach(([k,v])=>u.searchParams.set(k,v));const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
+async function load(term,quiet){active=term;chips();if(!quiet)show("yt");$("note").textContent="";
+ if(!YT_API_KEY){const q=(term=="Trending"?"":term).toLowerCase();list=LOCAL.filter(v=>(v.title+v.ch).toLowerCase().includes(q));$("note").textContent="Demo mode: add a YouTube API key to search all of YouTube.";return draw()}
+ try{let d;if(term=="Trending"){d=await api("videos",{part:"snippet",chart:"mostPopular",regionCode:"US",maxResults:24});list=d.items.map(i=>({id:i.id,title:clean(i.snippet.title),ch:clean(i.snippet.channelTitle)}))}
+  else{d=await api("search",{part:"snippet",q:term,type:"video",videoEmbeddable:"true",maxResults:24});list=d.items.map(i=>({id:i.id.videoId,title:clean(i.snippet.title),ch:clean(i.snippet.channelTitle)}))}}
+ catch(e){list=LOCAL;$("note").textContent="YouTube API error (check your key or daily quota). Showing demo videos."}
+ draw()}
+function draw(){$("vg").innerHTML=list.map((v,i)=>'<div class="v" onclick="play('+i+')"><img loading="lazy" src="https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg" alt=""><div class="row" style="margin-top:8px"><div class="av">'+(v.ch[0]||"?")+'</div><div><h4>'+v.title+'</h4><small class="mut">'+v.ch+'</small></div></div></div>').join("")||"<p>No results.</p>"}
+$("yq").onkeydown=e=>{if(e.key=="Enter"&&$("yq").value.trim())load($("yq").value.trim())};
+function liked(){list=likes;active="";chips();show("yt");$("note").textContent="Your liked videos";draw()}
+function play(i){cur=list[i];const v=cur;$("wt").innerHTML=v.title;$("wc").innerHTML=v.ch;updL();
+ $("rel").innerHTML=list.map((x,j)=>j==i?"":'<div class="v" onclick="play('+j+')"><img src="https://i.ytimg.com/vi/'+x.id+'/mqdefault.jpg"><div><h4>'+x.title+'</h4><small class="mut">'+x.ch+'</small></div></div>').join("");
+ show("watch");$("player").src="https://www.youtube.com/embed/"+v.id+"?autoplay=1&rel=0";scrollTo(0,0)}
+const isL=()=>likes.some(x=>x.id==cur.id);
+function updL(){$("wl").textContent=isL()?"👍 Liked":"👍 Like"}
+function likeCur(){likes=isL()?likes.filter(x=>x.id!=cur.id):likes.concat([cur]);localStorage.setItem("gz_likes2",JSON.stringify(likes));updL()}
+
+/* --- TikTok-style feed --- */
+let myTT=LS("gz_tt",[]);
+function addTT(){const m=$("ttl").value.match(/video\/(\d{8,})/);if(!m)return alert("Paste the full link, like tiktok.com/@name/video/1234567890. Short vm.tiktok.com links won't work — open them first and copy the full address.");
+ if(!myTT.includes(m[1]))myTT.unshift(m[1]);localStorage.setItem("gz_tt",JSON.stringify(myTT));$("ttl").value="";buildFeed()}
+async function buildFeed(){const f=$("feed");let clips=myTT.map(id=>({t:"tt",id:id,u:"@tiktok",c:"Added from TikTok"}));
+ if(YT_API_KEY){try{const d=await api("search",{part:"snippet",q:TOPICS[Math.random()*TOPICS.length|0]+" #shorts",type:"video",videoDuration:"short",videoEmbeddable:"true",maxResults:15});
+  clips=clips.concat(d.items.map(i=>({t:"yt",id:i.id.videoId,u:"@"+clean(i.snippet.channelTitle).replace(/\s/g,""),c:clean(i.snippet.title)})))}catch(e){}}
+ if(!clips.length)clips=[{t:"tt",id:"6718335390845095173",u:"@tiktok",c:"Public TikTok clip #fyp"},{t:"yt",id:"8swDFMt-x9Y",u:"@shorts",c:"Add a YouTube API key for endless Shorts"}];
+ f.innerHTML=clips.map((c,i)=>'<div class="clip" data-i="'+i+'"><div class="vid" style="height:100%"></div><div class="info"><b>'+c.u+'</b><p style="font-size:.9rem">'+c.c+'</p><small>♫ original sound</small></div><div class="act"><button onclick="lk(this)">♥</button><span>'+(Math.random()*90+5|0)+'.'+(Math.random()*9|0)+'K</span><button onclick="alert(\'Comments coming soon\')">💬</button><span>'+(Math.random()*900|0)+'</span><button onclick="navigator.share?navigator.share({url:location.href}):alert(\'Copy the page link to share\')">↗</button><span>Share</span></div><div class="disc"></div></div>').join("");
+ f.scrollTop=0;
+ const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector(".vid"),c=clips[e.target.dataset.i];
+  if(e.isIntersecting&&!v.firstChild){v.innerHTML=c.t=="yt"?'<iframe src="https://www.youtube.com/embed/'+c.id+'?autoplay=1&mute=1&loop=1&playlist='+c.id+'&playsinline=1&rel=0" allow="autoplay;encrypted-media"></iframe>':'<iframe src="https://www.tiktok.com/player/v1/'+c.id+'?controls=1&loop=1&autoplay=1" allow="autoplay;fullscreen"></iframe>'}
+  else if(!e.isIntersecting)v.innerHTML=""}),{root:f,threshold:.7});
+ f.querySelectorAll(".clip").forEach(c=>io.observe(c))}
+function lk(b){b.classList.toggle("liked");b.style.transform="scale(1.3)";setTimeout(()=>{b.style.transform=""},150)}
+
+/* --- restore session (must stay last) --- */
+chips();
+try{const s=sessionStorage.getItem("gz_user");if(s){user=JSON.parse(s);enter()}}catch(e){}
+</script></body></html>
