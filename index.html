@@ -1,139 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1020">
-<title>Big-Gizmo — Games & Videos</title>
+<meta name="theme-color" content="#080b16">
+<title>Big-Gizmo — Games & Clips</title>
 <style>
-:root{--bg:#090d18;--panel:#11182a;--panel2:#172139;--line:#283653;--text:#f4f7ff;--muted:#a6b2cb;--purple:#8b5cf6;--cyan:#22d3ee;--pink:#f472b6;--green:#34d399}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% -15%,#29205b 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button,input,select{font:inherit}button{cursor:pointer;border:0}a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 22px}
-header{position:sticky;top:0;z-index:10;background:#090d18eF;backdrop-filter:blur(16px);border-bottom:1px solid #202b43}
-.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-size:1.28rem;font-weight:900;letter-spacing:.5px}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),#4f46e5);box-shadow:0 6px 24px #7c3aed40;font-size:23px}.brand span em{font-style:normal;color:#a78bfa}.navlinks{display:flex;gap:8px;flex-wrap:wrap}.navlinks a{font-size:.92rem;color:var(--muted);text-decoration:none;padding:9px 12px;border-radius:10px}.navlinks a:hover{color:white;background:#1a2440}
-.hero{padding:60px 0 32px;display:grid;grid-template-columns:1.3fr .7fr;align-items:center;gap:32px}.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid #4c3b83;background:#20183d;color:#c4b5fd;border-radius:999px;padding:6px 11px;font-size:.78rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}h1{font-size:clamp(2.5rem,6vw,4.8rem);line-height:1.03;letter-spacing:-2px;margin:18px 0}h1 .grad{background:linear-gradient(90deg,#c4b5fd,#67e8f9);color:transparent;background-clip:text}.lead{max-width:640px;color:var(--muted);font-size:1.08rem}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-weight:800;text-decoration:none;box-shadow:0 7px 24px #7c3aed30}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#18233b;border:1px solid #34415f;box-shadow:none}.hero-card{position:relative;min-height:270px;border:1px solid #384164;border-radius:24px;padding:25px;background:linear-gradient(145deg,#211b48,#121a2d 72%);overflow:hidden;box-shadow:0 20px 80px #0005}.hero-card:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-65px;top:-60px;background:linear-gradient(135deg,#8b5cf650,#22d3ee22);filter:blur(5px)}.hero-art{font-size:5rem;position:relative;z-index:1}.hero-card h3{font-size:1.5rem;margin:8px 0 2px;position:relative;z-index:1}.hero-card p{color:var(--muted);margin:0;position:relative;z-index:1}.stats{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.stat{border:1px solid #34415f;background:#11182a99;padding:10px 13px;border-radius:12px;min-width:100px}.stat strong{display:block;font-size:1.1rem}.stat small{color:var(--muted)}
-section{padding:34px 0 22px;scroll-margin-top:88px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}.section-head h2{font-size:1.75rem;letter-spacing:-.5px;margin:0}.section-head p{color:var(--muted);margin:5px 0 0}.tag{font-size:.75rem;font-weight:800;color:#c4b5fd;background:#281d4b;border:1px solid #49367a;padding:5px 9px;border-radius:999px;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:linear-gradient(180deg,#141d31,#101728);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}.card:hover{border-color:#5d5291}.game-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}.game-icon{width:49px;height:49px;display:grid;place-items:center;border-radius:14px;background:#24214a;font-size:1.7rem}.game-top h3{margin:0;font-size:1.08rem}.game-top p{margin:2px 0 0;color:var(--muted);font-size:.86rem}.play-area{background:#0a1020;border:1px solid #25324e;border-radius:14px;padding:14px;margin-top:14px;min-height:110px}.muted{color:var(--muted)}.mini-btn{background:#273453;color:white;border:1px solid #405073;padding:8px 12px;border-radius:9px;font-weight:700}.mini-btn.primary{background:#7549dc;border-color:#8b5cf6}.mini-btn:disabled{opacity:.5;cursor:not-allowed}.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.result{font-weight:800;color:#a5f3fc;margin-top:8px;min-height:24px}.big-number{font-size:2rem;font-weight:900;text-align:center}.reaction-box{min-height:115px;display:grid;place-items:center;text-align:center;border-radius:12px;background:#1b2440;color:#e0e7ff;font-weight:800;padding:16px;user-select:none}.reaction-box.ready{background:#0b604e;color:#d1fae5}.reaction-box.wait{background:#713f12;color:#fef3c7}.reaction-box.go{background:#166534;color:white}.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.mem{aspect-ratio:1;border-radius:9px;background:#263454;color:#fff;font-size:1.4rem;font-weight:800}.mem.open,.mem.matched{background:#45318b}.mem.matched{outline:2px solid #34d399}.snake-wrap{display:flex;justify-content:center}.snake-canvas{width:min(100%,300px);height:auto;background:#070c16;border:1px solid #31405f;border-radius:10px;image-rendering:pixelated}.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:210px;margin:12px auto 0}.keypad button{padding:10px;border-radius:8px;background:#202b46;color:white;font-weight:800}.field{width:100%;min-width:0;background:#0a1020;color:white;border:1px solid #34415f;border-radius:10px;padding:10px 12px;outline:none}.field:focus{border-color:#a78bfa}.video-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}.video-card{background:#11182a;border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}.video-card h3{margin:0 0 5px}.video-card>p{margin:0 0 14px;color:var(--muted);font-size:.92rem}.search-row{display:flex;gap:8px}.search-row .field{flex:1}.player{margin-top:14px;aspect-ratio:16/9;background:#080c16;border:1px solid #283653;border-radius:12px;display:grid;place-items:center;overflow:hidden}.player iframe{width:100%;height:100%;border:0}.player-placeholder{text-align:center;padding:20px;color:var(--muted)}.player-placeholder .symbol{font-size:2.5rem}.note{font-size:.82rem;color:var(--muted);margin-top:10px}.tiktok-embed-area{max-height:560px;overflow:auto;display:flex;justify-content:center}.tiktok-embed-area blockquote{margin:0!important}.quick-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.quick-links a{font-size:.88rem;color:#c4b5fd;text-decoration:none;border:1px solid #49367a;border-radius:9px;padding:7px 10px}.quick-links a:hover{background:#261c48}.callout{margin-top:22px;padding:15px 17px;border-radius:14px;background:#151e32;border:1px solid #2b3a59;color:var(--muted);font-size:.9rem}.callout strong{color:#e6eaff}footer{border-top:1px solid #202b43;margin-top:40px;padding:28px 0 36px;color:var(--muted);font-size:.9rem}.footer-row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer-brand{color:white;font-weight:900}.hidden{display:none!important}
-@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:42px}.hero-card{min-height:220px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav{align-items:flex-start;padding-top:12px;padding-bottom:12px;flex-direction:column}.navlinks{width:100%}.navlinks a{padding:7px 9px}.video-layout{grid-template-columns:1fr}}
-@media(max-width:560px){.wrap{padding:0 14px}.grid{grid-template-columns:1fr}.hero{padding-top:32px}.hero-card{min-height:180px}.section-head{align-items:flex-start;flex-direction:column}.navlinks{gap:2px}.navlinks a{font-size:.82rem}.stats{gap:7px}.stat{min-width:0;flex:1}.search-row{flex-direction:column}.search-row .btn{width:100%}}
+:root{--bg:#080b16;--panel:#11172a;--panel2:#171f36;--text:#f5f7ff;--muted:#9ba7c7;--accent:#8b5cf6;--accent2:#22d3ee;--line:#283250}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top,#182348 0,#080b16 50%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,a{font:inherit}a{color:inherit;text-decoration:none}.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(16px,4vw,48px);background:#080b16eF;border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:900;letter-spacing:-.04em}.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 8px 28px #8b5cf644}
+.nav{display:flex;gap:8px;flex-wrap:wrap}.nav button,.pill{border:1px solid var(--line);background:#141a2c;color:var(--text);border-radius:999px;padding:9px 14px;cursor:pointer;transition:.2s}.nav button:hover,.nav button.active{background:linear-gradient(120deg,#7c3aed,#2563eb);border-color:transparent}
+main{max-width:1200px;margin:auto;padding:28px clamp(16px,4vw,48px) 70px}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:24px;align-items:center;padding:clamp(22px,4vw,42px);border:1px solid #3b4670;border-radius:28px;background:linear-gradient(130deg,#1b2450dd,#11172aeF 65%);overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:270px;height:270px;right:-50px;top:-75px;border-radius:50%;background:radial-gradient(circle,#8b5cf655,transparent 68%);pointer-events:none}
+.eyebrow{color:#67e8f9;font-size:.76rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.hero h1{font-size:clamp(2.3rem,6vw,4.6rem);line-height:.98;letter-spacing:-.065em;margin:12px 0 14px}.gradient{background:linear-gradient(90deg,#c4b5fd,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{max-width:620px;color:#b8c2df;line-height:1.65;margin:0 0 22px}.cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(110deg,#8b5cf6,#2563eb);padding:12px 18px;border-radius:12px;font-weight:800;border:0;color:white;cursor:pointer}.hero-art{font-size:clamp(6rem,15vw,10rem);text-align:center;filter:drop-shadow(0 15px 30px #0008);position:relative;z-index:1}
+.section{margin-top:38px;scroll-margin-top:90px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:16px}.section h2{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.04em;margin:0}.section-head p{margin:6px 0 0;color:var(--muted);font-size:.93rem}.search{width:min(100%,280px);border:1px solid var(--line);background:#10162a;color:white;border-radius:12px;padding:11px 14px;outline:none}.search:focus{border-color:var(--accent2)}
+.game-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.game-card{min-width:0;background:linear-gradient(155deg,#18213a,#101525);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .2s,border-color .2s}.game-card:hover{transform:translateY(-4px);border-color:#6878b7}.game-art{height:126px;display:grid;place-items:center;font-size:3.4rem;background:radial-gradient(circle at 50% 25%,#384d84,#151b30 68%);position:relative}.game-art span{filter:drop-shadow(0 8px 8px #0006)}.tag{position:absolute;top:10px;left:10px;background:#080b16c9;border:1px solid #ffffff22;padding:5px 8px;border-radius:999px;font-size:.68rem;color:#dce5ff}.game-info{padding:14px}.game-info h3{margin:0 0 6px;font-size:1.02rem}.game-info p{margin:0 0 13px;color:var(--muted);font-size:.83rem;line-height:1.45;min-height:36px}.game-actions{display:flex;gap:8px}.play-btn,.open-btn{border:0;border-radius:9px;padding:9px 11px;cursor:pointer;font-weight:750;font-size:.82rem}.play-btn{background:#7c3aed;color:white;flex:1}.open-btn{background:#202b48;color:#dbeafe}
+.feed-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.feed-tabs button{border:1px solid var(--line);background:var(--panel);color:#c6d1ec;padding:10px 15px;border-radius:12px;cursor:pointer;font-weight:800}.feed-tabs button.active{background:#25204a;border-color:#8b5cf6;color:white}.feed-wrap{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;align-items:start}.feed-note{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;color:var(--muted);font-size:.9rem;line-height:1.6}.feed-note strong{color:white}.feed-note a{color:#67e8f9;text-decoration:underline}.feed-column{height:660px;overflow-y:auto;scroll-snap-type:y mandatory;display:flex;flex-direction:column;align-items:center;gap:18px;padding:4px 10px 20px;background:#0c1020;border:1px solid var(--line);border-radius:20px;scrollbar-color:#495783 #0c1020}.video-card{width:min(100%,370px);scroll-snap-align:start;background:#080b16;border:1px solid #2b3555;border-radius:18px;overflow:hidden}.video-title{padding:12px 14px;font-weight:800;font-size:.92rem}.video-sub{padding:0 14px 12px;color:var(--muted);font-size:.78rem}.video-frame{width:100%;aspect-ratio:9/16;display:block;border:0;background:#171f36}.feed-empty{padding:30px;text-align:center;color:var(--muted)}.feed-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hidden{display:none!important}.footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:#8390b4;font-size:.82rem;line-height:1.6}
+.modal{position:fixed;inset:0;z-index:30;background:#03050beF;display:none;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-panel{width:min(1100px,100%);height:min(84vh,800px);display:flex;flex-direction:column;background:#0d1324;border:1px solid #364266;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);gap:12px}.modal-head strong{font-size:1rem}.modal-head button{background:#26314f;color:white;border:0;border-radius:9px;padding:8px 12px;cursor:pointer}.modal iframe{width:100%;height:100%;border:0;background:white}.modal-help{padding:10px 14px;color:#aebbd8;font-size:.82rem;background:#11182b}.modal-help a{color:#67e8f9;text-decoration:underline}
+@media(max-width:900px){.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.feed-wrap{grid-template-columns:1fr}.feed-note{order:-1}.hero{grid-template-columns:1fr}.hero-art{display:none}}
+@media(max-width:520px){.topbar{align-items:flex-start;flex-direction:column}.nav{width:100%}.nav button{flex:1}.section-head{align-items:flex-start;flex-direction:column}.search{width:100%}.game-grid{gap:10px}.game-art{height:100px}.game-info{padding:11px}.game-actions{flex-direction:column}.feed-column{height:620px}.hero h1{font-size:2.8rem}}
 </style>
 </head>
 <body>
-<header>
- <div class="wrap nav">
-  <a class="brand" href="#home" aria-label="Big-Gizmo home"><span class="logo">▶</span><span>PLAY<em>ZONE</em></span></a>
-  <nav class="navlinks" aria-label="Main navigation"><a href="#games">🎮 Games</a><a href="#youtube">▶ YouTube</a><a href="#tiktok">♪ TikTok</a></nav>
- </div>
+<header class="topbar">
+  <a class="brand" href="#" aria-label="Big-Gizmo home"><span class="logo">⚡</span><span>BIG-GIZMO</span></a>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-go="games">🎮 Games</button>
+    <button data-go="youtube">▶ YouTube</button>
+    <button data-go="tiktok">♪ TikTok</button>
+  </nav>
 </header>
-<main class="wrap" id="home">
- <div class="hero">
-  <div>
-   <span class="eyebrow"><span class="dot"></span> Your entertainment hub</span>
-   <h1>Press play.<br><span class="grad">Enter Big-Gizmo.</span></h1>
-   <p class="lead">Jump into quick games, test your reflexes, match the cards, and find your next video — all in one dark-mode gaming hub.</p>
-   <div class="actions"><a class="btn" href="#games">🎮 Play a game</a><a class="btn secondary" href="#youtube">▶ Watch videos</a></div>
-   <div class="stats"><div class="stat"><strong>4</strong><small>Mini-games</small></div><div class="stat"><strong>Free</strong><small>No account needed</small></div><div class="stat"><strong>Any device</strong><small>Responsive design</small></div></div>
-  </div>
-  <div class="hero-card"><div class="hero-art">🕹️✨</div><h3>Your next high score starts here.</h3><p>Pick a game. Beat your best. Challenge yourself.</p></div>
- </div>
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Your new internet hangout</div>
+      <h1>Play more.<br><span class="gradient">Scroll less boring.</span></h1>
+      <p>Jump into browser games, then switch over to a vertical video feed. No app download needed for this site.</p>
+      <button class="cta" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">Explore games <span>→</span></button>
+    </div>
+    <div class="hero-art" aria-hidden="true">🎮</div>
+  </section>
 
- <section id="games">
-  <div class="section-head"><div><h2>🎮 Play something</h2><p>These mini-games run right in your browser.</p></div><span class="tag">NO DOWNLOADS</span></div>
-  <div class="grid">
-   <article class="card">
-    <div class="game-top"><div class="game-icon">⚡</div><div><h3>Reaction Rush</h3><p>Test your reflexes</p></div></div>
-    <p class="muted">Wait for green, then click as fast as you can. Don't jump the gun.</p>
-    <div class="play-area"><div id="reactionBox" class="reaction-box">Press Start when you're ready.</div><div class="row" style="justify-content:center;margin-top:10px"><button id="reactionStart" class="mini-btn primary">Start test</button></div><div id="reactionResult" class="result" aria-live="polite"></div></div>
-   </article>
-   <article class="card">
-    <div class="game-top"><div class="game-icon">🧠</div><div><h3>Memory Match</h3><p>Find every pair</p></div></div>
-    <p class="muted">Flip two tiles at a time and remember where the matching icons are.</p>
-    <div class="play-area"><div class="row" style="justify-content:space-between"><span class="muted">Moves: <strong id="moves">0</strong></span><span class="muted">Pairs: <strong id="pairs">0/8</strong></span><button id="memoryReset" class="mini-btn">Restart</button></div><div id="memoryGrid" class="memory-grid" aria-label="Memory matching cards"></div><div id="memoryResult" class="result" aria-live="polite"></div></div>
-   </article>
-   <article class="card">
-    <div class="game-top"><div class="game-icon">🐍</div><div><h3>Snake</h3><p>Grab the glowing food</p></div></div>
-    <p class="muted">Use arrow keys or the buttons. Eat food, grow longer, and avoid the walls and yourself.</p>
-    <div class="play-area"><div class="snake-wrap"><canvas id="snakeCanvas" class="snake-canvas" width="300" height="300" aria-label="Snake game board"></canvas></div><div class="row" style="justify-content:center;margin-top:10px"><button id="snakeStart" class="mini-btn primary">Start / Restart</button><span class="muted">Score: <strong id="snakeScore">0</strong></span></div><div class="keypad" aria-label="Snake controls"><span></span><button data-dir="up" aria-label="Up">↑</button><span></span><button data-dir="left" aria-label="Left">←</button><button data-dir="down" aria-label="Down">↓</button><button data-dir="right" aria-label="Right">→</button></div><div id="snakeResult" class="result" aria-live="polite">Press Start to play.</div></div>
-   </article>
-   <article class="card">
-    <div class="game-top"><div class="game-icon">🔢</div><div><h3>Number Guess</h3><p>Can you crack it?</p></div></div>
-    <p class="muted">I'm thinking of a number from 1 to 100. Guess it in as few tries as possible.</p>
-    <div class="play-area"><form id="guessForm" class="row"><input class="field" id="guessInput" type="number" min="1" max="100" placeholder="Enter 1–100" required style="flex:1;width:90px"><button class="mini-btn primary" type="submit">Guess</button></form><div id="guessResult" class="result" aria-live="polite">Make your first guess!</div><div class="row" style="justify-content:space-between;margin-top:9px"><span class="muted">Attempts: <strong id="guessAttempts">0</strong></span><button id="guessReset" class="mini-btn">New number</button></div></div>
-   </article>
-  </div>
- </section>
+  <section class="section" id="games">
+    <div class="section-head"><div><h2>Game zone</h2><p>Pick a game and jump straight in.</p></div><input class="search" id="gameSearch" placeholder="Search games…" aria-label="Search games"></div>
+    <div class="game-grid" id="gameGrid">
+      <article class="game-card" data-search="snow rider 3d sled racing winter">
+        <div class="game-art"><span>🛷</span><b class="tag">RACING</b></div><div class="game-info"><h3>Snow Rider 3D</h3><p>Sled downhill, dodge obstacles, chase a high score.</p><div class="game-actions"><button class="play-btn" data-game="https://snowrider.com/game">Play here</button><a class="open-btn" href="https://snowrider.com/" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="retro bowl football sports team manager">
+        <div class="game-art"><span>🏈</span><b class="tag">SPORTS</b></div><div class="game-info"><h3>Retro Bowl</h3><p>Build a team, call plays, and win the championship.</p><div class="game-actions"><button class="play-btn" data-game="https://retrobowl.dev/">Play here</button><a class="open-btn" href="https://retrobowl.dev/" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="2048 puzzle numbers brain">
+        <div class="game-art"><span>🔢</span><b class="tag">PUZZLE</b></div><div class="game-info"><h3>2048</h3><p>Slide matching tiles together to reach 2048.</p><div class="game-actions"><button class="play-btn" data-game="https://play2048.co/">Play here</button><a class="open-btn" href="https://play2048.co/" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="cookie clicker idle clicking">
+        <div class="game-art"><span>🍪</span><b class="tag">IDLE</b></div><div class="game-info"><h3>Cookie Clicker</h3><p>Click cookies, buy upgrades, and grow your bakery.</p><div class="game-actions"><button class="play-btn" data-game="https://orteil.dashnet.org/cookieclicker/">Play here</button><a class="open-btn" href="https://orteil.dashnet.org/cookieclicker/" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="run 3 space runner platform">
+        <div class="game-art"><span>🚀</span><b class="tag">RUNNER</b></div><div class="game-info"><h3>Run 3</h3><p>Run through space tunnels without falling off.</p><div class="game-actions"><button class="play-btn" data-game="https://run3.io/">Play here</button><a class="open-btn" href="https://run3.io/" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="slope 3d ball endless runner">
+        <div class="game-art"><span>🟢</span><b class="tag">ARCADE</b></div><div class="game-info"><h3>Slope</h3><p>Steer a fast ball down a neon 3D course.</p><div class="game-actions"><button class="play-btn" data-game="https://slopegame.io/">Play here</button><a class="open-btn" href="https://slopegame.io/" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="basketball stars sports basketball">
+        <div class="game-art"><span>🏀</span><b class="tag">SPORTS</b></div><div class="game-info"><h3>Basketball Stars</h3><p>Take on opponents in quick basketball matchups.</p><div class="game-actions"><button class="play-btn" data-game="https://www.miniplay.com/game/basketball-stars">Play here</button><a class="open-btn" href="https://www.miniplay.com/game/basketball-stars" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+      <article class="game-card" data-search="google solitaire cards">
+        <div class="game-art"><span>🃏</span><b class="tag">CLASSIC</b></div><div class="game-info"><h3>Solitaire</h3><p>A classic card game for a quick break.</p><div class="game-actions"><button class="play-btn" data-game="https://www.google.com/logos/fnbx/solitaire/ima/">Play here</button><a class="open-btn" href="https://www.google.com/search?q=solitaire" target="_blank" rel="noopener">Open ↗</a></div></div>
+      </article>
+    </div>
+    <p class="feed-empty hidden" id="noGames">No games match that search.</p>
+  </section>
 
- <section id="youtube">
-  <div class="section-head"><div><h2>▶ YouTube zone</h2><p>Search YouTube or paste a video link to play supported videos here.</p></div><span class="tag">VIDEO</span></div>
-  <div class="video-card">
-   <h3>Find something to watch</h3><p>Search opens YouTube results. To play a specific video here, paste its URL or 11-character video ID below.</p>
-   <form id="ytSearchForm" class="search-row"><input class="field" id="ytSearch" placeholder="Search videos (e.g. basketball highlights)" aria-label="Search YouTube"><button class="btn" type="submit">Search YouTube ↗</button></form>
-   <div class="search-row" style="margin-top:10px"><input class="field" id="ytUrl" placeholder="Paste YouTube video URL or video ID" aria-label="YouTube video URL"><button class="mini-btn primary" id="ytLoad" type="button">Play here</button></div>
-   <div id="ytPlayer" class="player"><div class="player-placeholder"><div class="symbol">▶️</div><strong>Your video appears here</strong><div class="note">Some videos block playback on external sites. Use “Watch on YouTube” if that happens.</div></div></div>
-   <div class="quick-links"><a id="ytOpen" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">Open YouTube ↗</a><a href="https://www.youtube.com/feed/trending" target="_blank" rel="noopener noreferrer">Trending ↗</a><a href="https://www.youtube.com/shorts" target="_blank" rel="noopener noreferrer">Shorts ↗</a></div>
-   <p class="note">Big-Gizmo is independent and isn't affiliated with YouTube. YouTube ads, restrictions, and availability are controlled by YouTube.</p>
-  </div>
- </section>
-
- <section id="tiktok">
-  <div class="section-head"><div><h2>♪ TikTok zone</h2><p>Open TikTok, or try an official embed for a specific public video.</p></div><span class="tag">SHORT VIDEOS</span></div>
-  <div class="video-card">
-   <h3>Bring a TikTok video</h3><p>Paste a public TikTok video link. Some creators, privacy settings, or browser restrictions may prevent embedding.</p>
-   <div class="search-row"><input class="field" id="ttUrl" placeholder="Paste a TikTok video URL (https://www.tiktok.com/...)" aria-label="TikTok video URL"><button class="btn" id="ttLoad" type="button">Load video</button></div>
-   <div id="ttPlayer" class="player"><div class="player-placeholder"><div class="symbol">♪</div><strong>Your TikTok embed appears here</strong><div class="note">If it doesn't load, open the video directly on TikTok.</div></div></div>
-   <div class="quick-links"><a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">Open TikTok ↗</a><a href="https://www.tiktok.com/explore" target="_blank" rel="noopener noreferrer">Explore ↗</a></div>
-   <p class="note">Only embed videos you can access and share. TikTok controls whether a video can be embedded.</p>
-  </div>
- </section>
- <div class="callout"><strong>Heads-up:</strong> Big-Gizmo is a static starter website. Games work locally in your browser. YouTube and TikTok are third-party services, so their content and embedded playback depend on their own settings. This starter does not collect accounts or personal data.</div>
+  <section class="section" id="videos">
+    <div class="section-head"><div><h2>Video lounge</h2><p>Scroll vertically through clips. Swipe on mobile or use your mouse wheel.</p></div></div>
+    <div class="feed-tabs"><button class="active" data-feed="youtube">▶ YouTube Shorts</button><button data-feed="tiktok">♪ TikTok</button></div>
+    <div class="feed-wrap">
+      <div>
+        <div class="feed-column" id="youtubeFeed">
+          <article class="video-card"><iframe class="video-frame" src="https://www.youtube.com/embed/8swDFMt-x9Y?playsinline=1&rel=0" title="Minecraft short on YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><div class="video-title">Minecraft Shorts</div><div class="video-sub">YouTube video · Scroll down for more</div></article>
+          <article class="video-card"><iframe class="video-frame" src="https://www.youtube.com/embed/9WCMxmnMInQ?playsinline=1&rel=0" title="Minecraft Shorts by PrestonPlayz" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><div class="video-title">Minecraft: Different Ages</div><div class="video-sub">YouTube video · More clips below</div></article>
+          <article class="video-card"><div class="feed-empty">Want to find something specific? <br><br><a href="https://www.youtube.com/shorts/" target="_blank" rel="noopener">Open the full YouTube Shorts feed ↗</a></div></article>
+        </div>
+        <div class="feed-column hidden" id="tiktokFeed">
+          <article class="video-card"><iframe class="video-frame" src="https://www.tiktok.com/player/v1/6718335390845095173?controls=1" title="TikTok video" loading="lazy" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="video-title">TikTok clip</div><div class="video-sub">Public post embed · Scroll down for more</div></article>
+          <article class="video-card"><div class="feed-empty">TikTok only lets websites embed specific public posts—not the whole personalized For You feed. <br><br><a href="https://www.tiktok.com/" target="_blank" rel="noopener">Open TikTok ↗</a></div></article>
+        </div>
+      </div>
+      <aside class="feed-note"><strong>How the feeds work</strong><br><br>This is a scrollable feed of embedded videos. YouTube and TikTok control which videos can be embedded, so some clips may not load in every browser or network.<br><br><strong>Want the full feeds?</strong><div class="feed-actions"><a class="pill" href="https://www.youtube.com/shorts/" target="_blank" rel="noopener">YouTube Shorts ↗</a><a class="pill" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok ↗</a></div><br>For a true personalized feed inside Big-Gizmo, the platforms' official APIs and permissions would be needed; a simple free static website cannot recreate their full apps.</aside>
+    </div>
+  </section>
+  <footer class="footer">Big-Gizmo is an independent fan project and is not affiliated with the game publishers, YouTube, or TikTok. Games and videos are hosted by their respective sites. If an embedded game or video does not load, use its Open link or the platform's official website.</footer>
 </main>
-<footer><div class="wrap footer-row"><div><span class="footer-brand">▶ BIG-GIZMO</span><br>Games. Videos. Your world.</div><div>Made for fun · Free starter website<br><span id="year"></span> Big-Gizmo — not affiliated with YouTube or TikTok.</div></div></footer>
+<div class="modal" id="gameModal" role="dialog" aria-modal="true" aria-label="Game player">
+  <div class="modal-panel"><div class="modal-head"><strong id="modalTitle">Loading game…</strong><button id="closeModal">✕ Close</button></div><div class="modal-help">If the game is blank, that site may block embedding. <a id="openExternal" href="#" target="_blank" rel="noopener">Open game in a new tab ↗</a></div><iframe id="gameFrame" title="Game player" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" allowfullscreen></iframe></div>
+</div>
 <script>
-const $ = id => document.getElementById(id);
-$('year').textContent = new Date().getFullYear();
-
-// Reaction Rush
-let reactionTimer = null, reactionState = 'idle', reactionStartAt = 0;
-$('reactionStart').addEventListener('click', () => {
- clearTimeout(reactionTimer); reactionState = 'wait';
- const box = $('reactionBox'); box.className = 'reaction-box wait'; box.textContent = 'Wait for green…'; $('reactionResult').textContent = '';
- $('reactionStart').disabled = true;
- reactionTimer = setTimeout(() => { reactionState = 'go'; reactionStartAt = performance.now(); box.className = 'reaction-box go'; box.textContent = 'CLICK NOW!'; $('reactionStart').disabled = false; }, 1300 + Math.random()*2800);
+const gameModal=document.getElementById('gameModal'),gameFrame=document.getElementById('gameFrame'),openExternal=document.getElementById('openExternal'),modalTitle=document.getElementById('modalTitle');
+document.querySelectorAll('[data-game]').forEach(btn=>btn.addEventListener('click',()=>{
+ const url=btn.dataset.game;const card=btn.closest('.game-card');modalTitle.textContent=card.querySelector('h3').textContent;gameFrame.src=url;openExternal.href=url;gameModal.classList.add('show');document.body.style.overflow='hidden';
+}));
+function closeGame(){gameModal.classList.remove('show');gameFrame.src='about:blank';document.body.style.overflow=''}
+document.getElementById('closeModal').addEventListener('click',closeGame);
+gameModal.addEventListener('click',e=>{if(e.target===gameModal)closeGame()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGame()});
+function setFeed(name){
+ document.getElementById('youtubeFeed').classList.toggle('hidden',name!=='youtube');
+ document.getElementById('tiktokFeed').classList.toggle('hidden',name!=='tiktok');
+ document.querySelectorAll('[data-feed]').forEach(b=>b.classList.toggle('active',b.dataset.feed===name));
+ document.getElementById('videos').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.querySelectorAll('[data-feed]').forEach(b=>b.addEventListener('click',()=>setFeed(b.dataset.feed)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('[data-go]').forEach(x=>x.classList.toggle('active',x===b));
+ if(b.dataset.go==='games')document.getElementById('games').scrollIntoView({behavior:'smooth'});
+ else {setFeed(b.dataset.go);document.querySelectorAll('[data-go]').forEach(x=>x.classList.toggle('active',x===b))}
+}));
+document.getElementById('gameSearch').addEventListener('input',e=>{
+ const q=e.target.value.toLowerCase().trim();let count=0;
+ document.querySelectorAll('.game-card').forEach(card=>{const match=(card.dataset.search+' '+card.innerText).toLowerCase().includes(q);card.classList.toggle('hidden',!match);if(match)count++});
+ document.getElementById('noGames').classList.toggle('hidden',count>0);
 });
-$('reactionBox').addEventListener('click', () => {
- if (reactionState === 'wait') { clearTimeout(reactionTimer); reactionState='idle'; $('reactionBox').className='reaction-box'; $('reactionBox').textContent='Too early! Try again.'; $('reactionResult').textContent='False start — wait for green.'; $('reactionStart').disabled=false; }
- else if (reactionState === 'go') { const ms=Math.round(performance.now()-reactionStartAt); reactionState='idle'; $('reactionBox').className='reaction-box'; $('reactionBox').textContent='Nice reaction!'; $('reactionResult').textContent=`Your time: ${ms} ms`; }
-});
-
-// Memory Match
-const symbols = ['🚀','🎮','⭐','🍕','👾','🏀','💎','🔥']; let deck=[], first=null, lock=false, moves=0, matched=0, memoryTimer;
-function resetMemory(){clearTimeout(memoryTimer);deck=[...symbols,...symbols].sort(()=>Math.random()-.5);first=null;lock=false;moves=0;matched=0;$('moves').textContent=moves;$('pairs').textContent='0/8';$('memoryResult').textContent='';const grid=$('memoryGrid');grid.innerHTML='';deck.forEach((s,i)=>{const b=document.createElement('button');b.className='mem';b.textContent='?';b.setAttribute('aria-label',`Hidden card ${i+1}`);b.dataset.index=i;b.addEventListener('click',()=>flipMemory(b,s));grid.appendChild(b);});}
-function flipMemory(btn,s){if(lock||btn.classList.contains('matched')||btn===first)return;btn.textContent=s;btn.classList.add('open');btn.setAttribute('aria-label',s);if(!first){first=btn;return;}moves++;$('moves').textContent=moves;if(first.textContent===btn.textContent){first.classList.remove('open');btn.classList.remove('open');first.classList.add('matched');btn.classList.add('matched');first.disabled=true;btn.disabled=true;matched++;$('pairs').textContent=`${matched}/8`;first=null;if(matched===8)$('memoryResult').textContent=`You matched them all in ${moves} moves! 🎉`;}else{lock=true;const prev=first;first=null;memoryTimer=setTimeout(()=>{prev.textContent='?';btn.textContent='?';prev.classList.remove('open');btn.classList.remove('open');prev.setAttribute('aria-label','Hidden card');btn.setAttribute('aria-label','Hidden card');lock=false;},700);}}
-$('memoryReset').addEventListener('click',resetMemory);resetMemory();
-
-// Number Guess
-let secret=0,attempts=0,guessDone=false;
-function resetGuess(){secret=Math.floor(Math.random()*100)+1;attempts=0;guessDone=false;$('guessAttempts').textContent='0';$('guessResult').textContent='Make your first guess!';$('guessInput').value='';$('guessInput').disabled=false;$('guessForm').querySelector('button').disabled=false;}
-$('guessForm').addEventListener('submit',e=>{e.preventDefault();if(guessDone)return;const n=Number($('guessInput').value);if(!Number.isInteger(n)||n<1||n>100){$('guessResult').textContent='Enter a whole number from 1 to 100.';return;}attempts++;$('guessAttempts').textContent=attempts;if(n===secret){$('guessResult').textContent=`Correct! You got it in ${attempts} ${attempts===1?'try':'tries'}! 🎉`;guessDone=true;$('guessInput').disabled=true;$('guessForm').querySelector('button').disabled=true;}else $('guessResult').textContent=n<secret?'Too low — go higher!':'Too high — go lower!';$('guessInput').select();});
-$('guessReset').addEventListener('click',resetGuess);resetGuess();
-
-// Snake
-const canvas=$('snakeCanvas'),ctx=canvas.getContext('2d'),cell=15,tiles=20;let snake=[],food={x:10,y:10},dir={x:1,y:0},nextDir={x:1,y:0},snakeLoop=null,snakeLive=false,snakeScore=0;
-function drawSnake(){ctx.fillStyle='#070c16';ctx.fillRect(0,0,300,300);ctx.strokeStyle='#121d30';for(let i=0;i<=300;i+=cell){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,300);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(300,i);ctx.stroke();}ctx.fillStyle='#f472b6';ctx.beginPath();ctx.arc(food.x*cell+cell/2,food.y*cell+cell/2,cell*.38,0,Math.PI*2);ctx.fill();snake.forEach((p,i)=>{ctx.fillStyle=i===0?'#67e8f9':'#8b5cf6';ctx.fillRect(p.x*cell+1,p.y*cell+1,cell-2,cell-2);});}
-function randomFood(){let p;do{p={x:Math.floor(Math.random()*tiles),y:Math.floor(Math.random()*tiles)}}while(snake.some(s=>s.x===p.x&&s.y===p.y));return p;}
-function startSnake(){clearInterval(snakeLoop);snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];dir={x:1,y:0};nextDir={x:1,y:0};food=randomFood();snakeScore=0;snakeLive=true;$('snakeScore').textContent='0';$('snakeResult').textContent='Use arrows to move.';drawSnake();snakeLoop=setInterval(stepSnake,125);}
-function stepSnake(){if(!snakeLive)return;dir=nextDir;const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};if(head.x<0||head.x>=tiles||head.y<0||head.y>=tiles||snake.some((p,i)=>i<snake.length-1&&p.x===head.x&&p.y===head.y)){snakeLive=false;clearInterval(snakeLoop);$('snakeResult').textContent=`Game over — score: ${snakeScore}. Press Start to try again.`;return;}snake.unshift(head);if(head.x===food.x&&head.y===food.y){snakeScore++;$('snakeScore').textContent=snakeScore;food=randomFood();}else snake.pop();drawSnake();}
-function changeDir(name){const map={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};const d=map[name];if(!d)return;if(d.x===-dir.x&&d.y===-dir.y)return;nextDir=d;}
-document.addEventListener('keydown',e=>{const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};if(map[e.key]&&document.activeElement.tagName!=='INPUT'){e.preventDefault();changeDir(map[e.key]);}});
-document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>changeDir(b.dataset.dir)));
-$('snakeStart').addEventListener('click',startSnake);snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];drawSnake();
-
-// YouTube search and embed
-function getYouTubeId(raw){const s=raw.trim();if(/^[\w-]{11}$/.test(s))return s;try{const u=new URL(s);if(u.hostname==='youtu.be'||u.hostname.endsWith('.youtu.be'))return u.pathname.split('/').filter(Boolean)[0]||null;if(u.hostname.includes('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const parts=u.pathname.split('/').filter(Boolean);if(['embed','shorts','live'].includes(parts[0]))return parts[1]||null;}}catch(e){}return null;}
-$('ytSearchForm').addEventListener('submit',e=>{e.preventDefault();const q=$('ytSearch').value.trim();if(q)window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q),'_blank','noopener,noreferrer');});
-$('ytLoad').addEventListener('click',()=>{const raw=$('ytUrl').value;const id=getYouTubeId(raw);if(!id||!/^[\w-]{11}$/.test(id)){ $('ytPlayer').innerHTML='<div class="player-placeholder"><strong>That link doesn’t look like a YouTube video.</strong><div class="note">Paste a full video link, or its 11-character video ID.</div></div>';return;}const url='https://www.youtube.com/watch?v='+id;$('ytPlayer').innerHTML='';const frame=document.createElement('iframe');frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id);frame.title='YouTube video player';frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';$('ytPlayer').appendChild(frame);$('ytOpen').href=url;});
-
-// TikTok official embed (video URL only)
-$('ttLoad').addEventListener('click',()=>{const raw=$('ttUrl').value.trim();let url;try{url=new URL(raw);}catch(e){$('ttPlayer').innerHTML='<div class="player-placeholder"><strong>Paste a full TikTok video URL first.</strong></div>';return;}if(!(url.hostname==='tiktok.com'||url.hostname.endsWith('.tiktok.com'))||!url.pathname.includes('/video/')){$('ttPlayer').innerHTML='<div class="player-placeholder"><strong>Use a public TikTok video link that contains /video/.</strong><div class="note">Profile links and search links aren't single-video embeds.</div></div>';return;}const clean=url.origin+url.pathname;const m=url.pathname.match(/\/video\/(\d+)/);if(!m){$('ttPlayer').innerHTML='<div class="player-placeholder"><strong>Couldn't find the video ID in that link.</strong></div>';return;}const videoId=m[1];$('ttPlayer').innerHTML='';const area=document.createElement('div');area.className='tiktok-embed-area';const block=document.createElement('blockquote');block.className='tiktok-embed';block.cite=clean;block.dataset.videoId=videoId;block.style.maxWidth='605px';block.style.minWidth='280px';const link=document.createElement('a');link.href=clean;link.textContent='View this TikTok';link.target='_blank';link.rel='noopener noreferrer';block.appendChild(link);area.appendChild(block);$('ttPlayer').appendChild(area);const script=document.createElement('script');script.async=true;script.src='https://www.tiktok.com/embed.js';script.onerror=()=>{$('ttPlayer').insertAdjacentHTML('beforeend','<p class="note">The TikTok embed did not load. <a href="'+clean.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener noreferrer">Open video on TikTok ↗</a></p>');};document.body.appendChild(script);});
 </script>
 </body>
 </html>
